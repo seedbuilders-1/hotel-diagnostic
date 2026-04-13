@@ -2847,8 +2847,7 @@
 
       function showThankYou() {
         showView("result-view");
-        const isConfigured =
-          FORMSPREE_ENDPOINT !== "https://formspree.io/f/mqewkzpg";
+        const isConfigured = FORMSPREE_ENDPOINT !== "YOUR_FORMSPREE_ENDPOINT";
         document.getElementById("result-inner").innerHTML = `
     ${!isConfigured ? `<div class="config-banner"><strong>Setup:</strong> Replace <code>https://formspree.io/f/mqewkzpg</code> with your Formspree URL to enable emails.</div>` : ""}
     <span class="thankyou-icon">✅</span>
@@ -2971,8 +2970,7 @@ Tone: professional, direct, sales-intelligence-focused. No fluff.`;
       // ── EMAILS ────────────────────────────────────
       async function sendEmails(aiInsight) {
         const statusEl = document.getElementById("email-status");
-        const isConfigured =
-          FORMSPREE_ENDPOINT !== "https://formspree.io/f/mqewkzpg";
+        const isConfigured = FORMSPREE_ENDPOINT !== "YOUR_FORMSPREE_ENDPOINT";
 
         const dep = DEPARTMENTS.find((d) => d.id === selectedDept);
         const d = DEPT_DATA[selectedDept];
