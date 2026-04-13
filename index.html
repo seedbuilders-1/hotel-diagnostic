@@ -608,7 +608,7 @@
 
     <script>
       // ── CONFIG ──────────────────────────────────────────────────────────
-      const FORMSPREE_ENDPOINT = "YOUR_FORMSPREE_ENDPOINT";
+      const FORMSPREE_ENDPOINT = "https://formspree.io/f/mqewkzpg";
       const ADMIN_EMAIL = "development@seedbuildersng.com";
       const CLIENT_SUPPORT_EMAIL = "sales@seedbuildersng.com";
       // ────────────────────────────────────────────────────────────────────
@@ -2847,9 +2847,10 @@
 
       function showThankYou() {
         showView("result-view");
-        const isConfigured = FORMSPREE_ENDPOINT !== "YOUR_FORMSPREE_ENDPOINT";
+        const isConfigured =
+          FORMSPREE_ENDPOINT !== "https://formspree.io/f/mqewkzpg";
         document.getElementById("result-inner").innerHTML = `
-    ${!isConfigured ? `<div class="config-banner"><strong>Setup:</strong> Replace <code>YOUR_FORMSPREE_ENDPOINT</code> with your Formspree URL to enable emails.</div>` : ""}
+    ${!isConfigured ? `<div class="config-banner"><strong>Setup:</strong> Replace <code>https://formspree.io/f/mqewkzpg</code> with your Formspree URL to enable emails.</div>` : ""}
     <span class="thankyou-icon">✅</span>
     <div class="thankyou-title">Thank you, ${lead.name}!</div>
     <p class="thankyou-body">
@@ -2970,7 +2971,8 @@ Tone: professional, direct, sales-intelligence-focused. No fluff.`;
       // ── EMAILS ────────────────────────────────────
       async function sendEmails(aiInsight) {
         const statusEl = document.getElementById("email-status");
-        const isConfigured = FORMSPREE_ENDPOINT !== "YOUR_FORMSPREE_ENDPOINT";
+        const isConfigured =
+          FORMSPREE_ENDPOINT !== "https://formspree.io/f/mqewkzpg";
 
         const dep = DEPARTMENTS.find((d) => d.id === selectedDept);
         const d = DEPT_DATA[selectedDept];
