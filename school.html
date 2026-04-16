@@ -1,0 +1,3859 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Diagnostic — Seedbuilders AI Automation</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ffffff;
+        --bg-secondary: #f7f6f2;
+        --bg-info: #e6f1fb;
+        --bg-success: #eaf3de;
+        --bg-warning: #faeeda;
+        --bg-danger: #fcebeb;
+        --text-primary: #1a1a18;
+        --text-secondary: #5f5e5a;
+        --text-tertiary: #9b9a94;
+        --text-info: #0c447c;
+        --text-success: #27500a;
+        --text-warning: #633806;
+        --text-danger: #791f1f;
+        --border: rgba(0, 0, 0, 0.12);
+        --border-md: rgba(0, 0, 0, 0.22);
+        --border-info: rgba(24, 95, 165, 0.35);
+        --border-success: rgba(59, 109, 17, 0.3);
+        --border-warning: rgba(133, 79, 11, 0.3);
+        --radius-md: 8px;
+        --radius-lg: 12px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1c1c1a;
+          --bg-secondary: #252523;
+          --bg-info: #042c53;
+          --bg-success: #173404;
+          --bg-warning: #412402;
+          --bg-danger: #501313;
+          --text-primary: #e8e6de;
+          --text-secondary: #a8a69e;
+          --text-tertiary: #6e6c66;
+          --text-info: #85b7eb;
+          --text-success: #97c459;
+          --text-warning: #ef9f27;
+          --text-danger: #f09595;
+          --border: rgba(255, 255, 255, 0.1);
+          --border-md: rgba(255, 255, 255, 0.2);
+          --border-info: rgba(133, 183, 235, 0.3);
+          --border-success: rgba(151, 196, 89, 0.3);
+          --border-warning: rgba(239, 159, 39, 0.3);
+        }
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 2rem 1rem 4rem;
+      }
+      .card {
+        background: var(--bg);
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        width: 100%;
+        max-width: 640px;
+      }
+      .brand {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        margin-bottom: 6px;
+      }
+      h1 {
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--text-primary);
+        line-height: 1.3;
+        margin-bottom: 8px;
+      }
+      .subtitle {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.65;
+      }
+      .section-tag {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: var(--bg-info);
+        color: var(--text-info);
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-bottom: 10px;
+      }
+      .q-text {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text-primary);
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        margin-top: 8px;
+      }
+      .divider {
+        border: none;
+        border-top: 0.5px solid var(--border);
+        margin: 1.5rem 0;
+      }
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 1.5rem;
+      }
+      .field-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .field-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+      .field-input {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 14px;
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--bg);
+        color: var(--text-primary);
+        outline: none;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+        font-family: inherit;
+      }
+      .field-input:focus {
+        border-color: var(--border-info);
+        box-shadow: 0 0 0 3px var(--bg-info);
+      }
+      .field-input::placeholder {
+        color: var(--text-tertiary);
+      }
+      .privacy-note {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        line-height: 1.6;
+      }
+      .dept-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 1.5rem;
+      }
+      @media (max-width: 480px) {
+        .dept-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .dept-btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--bg);
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 14px 16px;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+        text-align: left;
+        font-family: inherit;
+        width: 100%;
+      }
+      .dept-btn:hover {
+        border-color: var(--border-md);
+        background: var(--bg-secondary);
+      }
+      .dept-btn.selected {
+        border-color: var(--border-info);
+        background: var(--bg-info);
+      }
+      .dept-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+        background: var(--bg-secondary);
+      }
+      .dept-btn.selected .dept-icon {
+        background: rgba(255, 255, 255, 0.5);
+      }
+      .dept-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-primary);
+        line-height: 1.3;
+      }
+      .dept-sub {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        margin-top: 2px;
+      }
+      .dept-btn.selected .dept-name {
+        color: var(--text-info);
+      }
+      .dept-btn.selected .dept-sub {
+        color: var(--text-info);
+        opacity: 0.7;
+      }
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 1.5rem;
+      }
+      .opt-btn {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+        text-align: left;
+        background: var(--bg);
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 12px 14px;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+        font-family: inherit;
+      }
+      .opt-btn:hover {
+        border-color: var(--border-md);
+        background: var(--bg-secondary);
+      }
+      .opt-btn.selected {
+        border-color: var(--border-info);
+        background: var(--bg-info);
+        color: var(--text-primary);
+      }
+      .opt-btn.selected .opt-letter {
+        background: var(--text-info);
+        color: #fff;
+        border-color: var(--text-info);
+      }
+      .opt-letter {
+        min-width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 0.5px solid var(--border-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-tertiary);
+        flex-shrink: 0;
+        margin-top: 1px;
+        transition: all 0.15s;
+      }
+      .progress-track {
+        width: 100%;
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 1.5rem 0 0.5rem;
+      }
+      .progress-fill {
+        height: 3px;
+        background: var(--text-info);
+        border-radius: 2px;
+        transition: width 0.4s ease;
+      }
+      .step-label {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin-bottom: 1.5rem;
+      }
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+      .btn-back {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        padding: 6px 0;
+        border: none;
+        background: none;
+        font-family: inherit;
+      }
+      .btn-back:hover {
+        color: var(--text-secondary);
+      }
+      .btn-primary {
+        background: var(--text-primary);
+        color: var(--bg);
+        border: none;
+        border-radius: var(--radius-md);
+        padding: 10px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        font-family: inherit;
+        transition: opacity 0.15s;
+      }
+      .btn-primary:hover {
+        opacity: 0.85;
+      }
+      .btn-primary:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+      .btn-outline {
+        background: none;
+        border: 0.5px solid var(--border-md);
+        border-radius: var(--radius-md);
+        padding: 10px 20px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .btn-ghost {
+        background: none;
+        border: none;
+        font-size: 13px;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        padding: 6px 0;
+        font-family: inherit;
+        text-decoration: underline;
+      }
+      .btn-ghost:hover {
+        color: var(--text-secondary);
+      }
+      .thankyou-icon {
+        font-size: 48px;
+        margin-bottom: 1rem;
+        display: block;
+      }
+      .thankyou-title {
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 0.75rem;
+      }
+      .thankyou-body {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin-bottom: 1.5rem;
+      }
+      .email-status {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin-top: 10px;
+        min-height: 18px;
+      }
+      .email-status.sent {
+        color: var(--text-success);
+      }
+      .email-status.error {
+        color: var(--text-danger);
+      }
+      .config-banner {
+        background: var(--bg-warning);
+        border: 0.5px solid var(--border-warning);
+        border-radius: var(--radius-md);
+        padding: 12px 14px;
+        font-size: 13px;
+        color: var(--text-warning);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+      .config-banner code {
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.07);
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+      .loading-dots {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .loading-dots span {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--text-tertiary);
+        animation: dot 0.9s infinite;
+      }
+      .loading-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .loading-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes dot {
+        0%,
+        80%,
+        100% {
+          opacity: 0.2;
+        }
+        40% {
+          opacity: 1;
+        }
+      }
+      .submitting-box {
+        text-align: center;
+        padding: 2rem 0;
+      }
+      .submitting-box p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 1rem;
+      }
+      .dept-section-header {
+        background: var(--bg-secondary);
+        border-radius: var(--radius-md);
+        padding: 10px 14px;
+        margin-bottom: 1rem;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div id="lead-view">
+        <div class="brand">Seedbuilders AI Automation</div>
+        <h1>School Department Diagnostic</h1>
+        <p class="subtitle">
+          For Heads of Department and School Management. Select your department,
+          answer focused questions, and receive a tailored AI automation report.
+        </p>
+        <div class="divider"></div>
+        <div class="section-tag">Your details</div>
+        <p class="q-text">Tell us about you and your school</p>
+        <div class="field-group">
+          <div class="field-wrap">
+            <label class="field-label" for="lead-name">Your name</label>
+            <input
+              class="field-input"
+              id="lead-name"
+              type="text"
+              placeholder="e.g. Ngozi Adeyemi"
+              oninput="checkLead()"
+            />
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="lead-role">Your job title</label>
+            <input
+              class="field-input"
+              id="lead-role"
+              type="text"
+              placeholder="e.g. Head of Academic Department"
+              oninput="checkLead()"
+            />
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="lead-school">School name</label>
+            <input
+              class="field-input"
+              id="lead-school"
+              type="text"
+              placeholder="e.g. Greenfield International Academy"
+              oninput="checkLead()"
+            />
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="lead-email">Work email</label>
+            <input
+              class="field-input"
+              id="lead-email"
+              type="email"
+              placeholder="you@yourschool.edu.ng"
+              oninput="checkLead()"
+            />
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="lead-phone"
+              >Phone
+              <span style="font-weight: 400; color: var(--text-tertiary)"
+                >(optional)</span
+              ></label
+            >
+            <input
+              class="field-input"
+              id="lead-phone"
+              type="tel"
+              placeholder="+234 800 000 0000"
+            />
+          </div>
+        </div>
+        <p class="privacy-note">
+          Your details are used only to send your diagnostic report. We do not
+          share your information.
+        </p>
+        <div style="height: 1.5rem"></div>
+        <div class="nav">
+          <button
+            class="btn-ghost"
+            onclick="window.location.href = 'index.html'"
+          >
+            &larr; Back to home
+          </button>
+          <button
+            class="btn-primary"
+            id="btn-lead-next"
+            onclick="showDeptSelect()"
+            disabled
+          >
+            Choose department
+          </button>
+        </div>
+      </div>
+
+      <div id="dept-view" style="display: none">
+        <div class="brand">Seedbuilders AI Automation</div>
+        <h1>Select your department</h1>
+        <p class="subtitle" style="margin-bottom: 1.5rem">
+          Choose the department you head. Your questions will be tailored to
+          your specific role.
+        </p>
+        <div class="dept-grid" id="dept-grid"></div>
+        <div class="nav">
+          <button class="btn-back" onclick="showView('lead-view')">Back</button>
+          <button
+            class="btn-primary"
+            id="btn-dept-next"
+            onclick="startQuestions()"
+            disabled
+          >
+            Start diagnostic
+          </button>
+        </div>
+      </div>
+
+      <div id="form-view" style="display: none">
+        <div class="brand">
+          Seedbuilders &middot; <span id="dept-label-top"></span>
+        </div>
+        <div
+          style="
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            margin-bottom: 0;
+          "
+          id="form-school-label"
+        ></div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress" style="width: 0%"></div>
+        </div>
+        <div class="step-label" id="step-label">Question 1</div>
+        <div id="q-area"></div>
+        <div class="nav">
+          <button
+            class="btn-back"
+            id="btn-back"
+            onclick="goBack()"
+            style="visibility: hidden"
+          >
+            Back
+          </button>
+          <button class="btn-primary" id="btn-next" onclick="goNext()" disabled>
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <div id="submitting-view" style="display: none">
+        <div class="submitting-box">
+          <div class="loading-dots" style="justify-content: center">
+            <span></span><span></span><span></span>
+          </div>
+          <p>Submitting your responses and generating your report...</p>
+        </div>
+      </div>
+
+      <div id="result-view" style="display: none">
+        <div id="result-inner"></div>
+      </div>
+    </div>
+
+    <script>
+      const FORMSPREE_ENDPOINT = "https://formspree.io/f/mqewkzpg";
+      const ADMIN_EMAIL = "development@seedbuildersng.com";
+      const CLIENT_SUPPORT_EMAIL = "sales@seedbuildersng.com";
+
+      const DEPARTMENTS = [
+        {
+          id: "MGT",
+          name: "Management",
+          sub: "Cross-department overview",
+          icon: "🏫",
+        },
+        {
+          id: "ACA",
+          name: "Academic",
+          sub: "Teaching, curriculum & assessment",
+          icon: "📚",
+        },
+        {
+          id: "SWE",
+          name: "Student Affairs",
+          sub: "Welfare, counseling & activities",
+          icon: "🤝",
+        },
+        {
+          id: "ADM",
+          name: "Administration",
+          sub: "Records, scheduling & coordination",
+          icon: "🗂",
+        },
+        {
+          id: "ENR",
+          name: "Admissions",
+          sub: "Enrollment & prospective students",
+          icon: "📋",
+        },
+        {
+          id: "FIN",
+          name: "Finance & Accounts",
+          sub: "Fees, payroll & reporting",
+          icon: "💰",
+        },
+        {
+          id: "MKT",
+          name: "Marketing & Comms",
+          sub: "Campaigns, content & leads",
+          icon: "📣",
+        },
+        {
+          id: "FAC",
+          name: "Facilities",
+          sub: "Maintenance, assets & safety",
+          icon: "🏗",
+        },
+        {
+          id: "ICT",
+          name: "ICT",
+          sub: "Technology & digital platforms",
+          icon: "💻",
+        },
+        {
+          id: "SEC",
+          name: "Security",
+          sub: "Surveillance & campus safety",
+          icon: "🔒",
+        },
+        {
+          id: "HR",
+          name: "Human Resources",
+          sub: "Recruitment, staff & payroll",
+          icon: "👥",
+        },
+        {
+          id: "TRP",
+          name: "Transport",
+          sub: "Routes, vehicles & student safety",
+          icon: "🚌",
+        },
+        {
+          id: "CAT",
+          name: "Catering",
+          sub: "Meals, nutrition & food services",
+          icon: "🍽",
+        },
+        {
+          id: "HLT",
+          name: "Health / Medical",
+          sub: "Student health & clinic management",
+          icon: "🏥",
+        },
+        {
+          id: "SPT",
+          name: "Co-Curricular / Sports",
+          sub: "Activities, teams & events",
+          icon: "⚽",
+        },
+      ];
+
+      const DEPT_DATA = {
+        ACA: {
+          questions: [
+            {
+              text: "During peak academic periods — exam season, report deadlines, new term rollouts — how consistently does your teaching staff deliver well-prepared, curriculum-aligned lessons across all subjects and grades?",
+              options: [
+                {
+                  label:
+                    "Lesson quality varies heavily by teacher — inconsistency is a known problem and peak periods make it noticeably worse",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Teachers are overstretched during busy periods and lesson preparation quality visibly suffers",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Adapting lessons for different learning abilities is rarely done thoroughly — one-size fits all is the norm",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Planning is generally fine but peak periods create noticeable strain on lesson quality",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Every teacher consistently delivers high-quality, differentiated lessons on time across all subjects and grades — even at the busiest periods, without exception and without complaint",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During assessment periods, how efficiently is grading, feedback delivery, and student performance tracking handled across the department?",
+              options: [
+                {
+                  label:
+                    "Grading takes too long — students wait days or weeks for results and feedback",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Grading is fast, feedback is instant, and performance dashboards are always current — teachers never spend time on manual score entry",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Manual grading leads to score entry errors and identifying learning gaps is very difficult",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Grading is manageable but generating performance reports for parents or management is slow and manual",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How confidently does your department maintain full curriculum coverage and alignment with national standards across all subjects and grades?",
+              options: [
+                {
+                  label:
+                    "Coverage gaps exist and it is difficult to confirm all required topics are being taught consistently",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Compliance is monitored but updating materials and detecting topic overlaps is largely manual and time-consuming",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Curriculum coverage is fully mapped, monitored in real time, flagged automatically when any subject falls behind, and materials are always current and compliant — with zero manual tracking effort",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Curriculum mapping exists but there are no automated alerts when adjustments are needed",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How effectively does your department identify and support students who are struggling academically or falling behind?",
+              options: [
+                {
+                  label:
+                    "Struggling students are usually only identified after they have already significantly fallen behind",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Teachers try to support struggling students but large class sizes make personalised intervention very difficult",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Every student has a personalised learning plan, at-risk students are identified automatically before they fall far behind, and 24/7 virtual support is always available — no student is ever left without help",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Some intervention happens but it is inconsistent and entirely dependent on individual teacher initiative",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how much time do teachers and academic staff spend on administrative tasks — timetabling, attendance, report generation — instead of teaching?",
+              options: [
+                {
+                  label:
+                    "All administrative tasks are fully automated — timetables, attendance, and reports are generated without any manual input, and teachers spend their time entirely on teaching and students, without exception",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Administrative work consumes several hours daily — lesson preparation and student interaction are regularly sacrificed to admin",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Admin is a noticeable burden but teachers manage — scheduling conflicts and late reports still occur",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Workload is acceptable but manual attendance and report compilation slow things down during busy periods",
+                  score: 1,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Automated Lesson Planning and Adaptive Content Generator",
+              desc: "Automatically generates lesson plans aligned to curriculum standards by subject and grade. Creates differentiated exercises, suggests multimedia content, and schedules lessons efficiently across all subjects.",
+            },
+            S2: {
+              name: "AI-Powered Assessment and Grading System",
+              desc: "Evaluates assignments automatically, generates adaptive quizzes, delivers instant feedback to students, and populates performance dashboards — eliminating manual grading workload entirely.",
+            },
+            S3: {
+              name: "AI Curriculum Mapping and Knowledge Gap Detection",
+              desc: "Maps all lesson content against curriculum standards in real time, detects coverage gaps, recommends supplementary resources, and alerts teachers automatically when adjustments are needed.",
+            },
+            S4: {
+              name: "AI Personalised Learning and Virtual Academic Support",
+              desc: "Creates personalised learning plans per student, provides 24/7 virtual tutoring via chatbot, identifies at-risk students early, and recommends remedial or enrichment activities proactively.",
+            },
+            S5: {
+              name: "AI-Driven Academic Administration and Reporting System",
+              desc: "Generates optimised timetables, tracks attendance via smart systems, auto-creates progress and performance reports, and integrates exam scheduling and substitutions — saving hours of daily admin work.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        SWE: {
+          questions: [
+            {
+              text: "During peak periods — term start, exam stress, event season — how well does your team handle the volume of student inquiries about schedules, counseling, scholarships, fees, and general guidance?",
+              options: [
+                {
+                  label:
+                    "All student inquiries are handled instantly 24/7 across all channels — nothing is ever missed regardless of volume, time of day, or how busy the term is",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Staff are overwhelmed — response times are slow, follow-ups are missed regularly, and student satisfaction suffers",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Manageable most of the time but peak periods cause significant delays and staff are overworked",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Routine inquiries are handled but complex guidance requests often fall through the cracks",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How accurately and consistently does your team track student participation in welfare programs, events, and extracurricular activities?",
+              options: [
+                {
+                  label:
+                    "Tracking is manual and inconsistent — records are inaccurate and identifying disengaged students is very difficult",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Participation is tracked in real time per student — engagement analytics drive programme planning and no follow-up is ever missed",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Some tracking exists but it is not real-time and missed follow-ups on student engagement are common",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Basic records exist but data is not used to improve programme design or identify at-risk students",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how effectively does your team prioritise and manage student counseling requests and welfare cases — including sensitive and urgent situations?",
+              options: [
+                {
+                  label:
+                    "Cases are triaged automatically by urgency, tracked through resolution, and follow-ups are never missed — no sensitive case is ever delayed, without exception",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "High case volumes make prioritisation difficult — urgent cases sometimes wait longer than they should",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Most cases are managed but the administrative burden of tracking and following up is very high",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Prioritisation works informally but there is no structured case management or automated reminders",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How well organised are your welfare programmes, events, and extracurricular activities — from scheduling through to attendance tracking and feedback collection?",
+              options: [
+                {
+                  label:
+                    "Coordination is largely manual — scheduling conflicts occur, registration is slow, and post-event feedback is rarely done properly",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Events are manageable but registration, attendance, and feedback collection are all done manually with significant effort",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Event scheduling, registration, check-in, feedback, and post-event analytics are all automated — staff focus entirely on delivery rather than coordination",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Scheduling works but attendance tracking and feedback collection are inconsistent",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "Does your department have real-time visibility into student wellbeing — including early indicators of academic distress, emotional risk, or disengagement — before a crisis occurs?",
+              options: [
+                {
+                  label:
+                    "Wellbeing issues are only discovered reactively — when a crisis has already occurred and intervention comes too late",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some monitoring exists but it relies on individual teacher reports rather than integrated school-wide data",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Welfare tracking is mostly reactive — identifying patterns requires laborious manual data review",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Multiple data sources are analysed automatically to identify at-risk students early — welfare staff receive actionable insights before problems ever escalate",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Student Inquiry and Support Chatbot",
+              desc: "Handles all routine student inquiries 24/7 via web, mobile, or messaging platforms. Answers questions on schedules, deadlines, policies, and campus services — escalating only complex cases to staff.",
+            },
+            S2: {
+              name: "AI Attendance and Engagement Tracker",
+              desc: "Automatically tracks student participation in all activities using mobile check-ins, QR codes, and ID integration. Analytics dashboards show engagement levels and flag disengaged students for follow-up.",
+            },
+            S3: {
+              name: "AI Case Management and Triage System",
+              desc: "Categorises and prioritises counseling and welfare requests by urgency, suggests actions for common cases, automates follow-up reminders, and tracks all cases through to resolution.",
+            },
+            S4: {
+              name: "AI Event Management and Programme System",
+              desc: "Automates event scheduling, student registration and check-in, personalised reminders, feedback collection, and post-event analytics — reducing admin workload and increasing student participation.",
+            },
+            S5: {
+              name: "AI Student Wellbeing Analytics",
+              desc: "Analyses attendance, grades, counseling notes, and engagement data together to identify students showing early signs of distress or dropout risk — giving welfare staff actionable intervention insights.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        ADM: {
+          questions: [
+            {
+              text: "During peak administrative periods — term start, inspection time, report season — how well does your team manage the volume of correspondence, approvals, document processing, and coordination tasks?",
+              options: [
+                {
+                  label:
+                    "Staff are overwhelmed — delayed approvals, documentation errors, and overworked admin personnel are the norm during busy periods",
+                  score: 3,
+                },
+                {
+                  label:
+                    "All administrative tasks flow automatically — document generation, approvals, and communications are handled without manual intervention regardless of workload",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Manageable most of the time but peak periods cause clear bottlenecks and delayed approvals",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Admin is handled but the manual volume limits staff from focusing on anything strategic",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How efficiently are staff meetings, departmental calendars, and scheduling across the school currently managed?",
+              options: [
+                {
+                  label:
+                    "Scheduling conflicts, missed meetings, and time wasted on back-and-forth coordination are regular occurrences",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A calendar system exists but it does not proactively resolve conflicts or manage recurring meetings well",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Meeting scheduling, availability management, and reminders are fully automated — conflicts never occur and no meeting is ever missed",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Generally works but coordinating across multiple departments still requires significant manual effort",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How are student and staff records — admissions data, attendance, grades, HR documents — currently stored and retrieved?",
+              options: [
+                {
+                  label:
+                    "Records are in physical files or fragmented systems — retrieving information quickly is difficult and compliance reporting is very laborious",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some digitalisation exists but the system is incomplete and fast retrieval of specific records is still challenging",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Records are mostly digital but generating management or compliance reports still requires significant manual work",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All records are digitised, securely stored, instantly searchable, and compliance reports are generated automatically with no manual effort — retrieval takes seconds",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How well does communication flow between administration and other departments — academic, finance, admissions, welfare — for coordinating shared tasks and follow-ups?",
+              options: [
+                {
+                  label:
+                    "All routine notifications, task assignments, and interdepartmental updates are automated with full thread tracking — nothing is ever missed and no follow-up is ever done manually",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Communication is fragmented — messages are delayed, threads are hard to track, and follow-ups are frequently missed",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Communication works but it depends on manual follow-ups that are often inconsistent",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Generally adequate but tracking communication threads and ensuring responses across departments is still manual",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "Do you have real-time visibility into the progress of ongoing administrative tasks, team workload levels, and where bottlenecks are building up?",
+              options: [
+                {
+                  label:
+                    "No visibility — progress is invisible until deadlines are missed or management specifically asks",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some visibility exists through manual reporting but it is not real-time and bottlenecks are usually identified too late",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Task tracking exists but it is not comprehensive and performance reporting requires manual compilation",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Real-time dashboards show all ongoing tasks, team performance, and bottlenecks — management can intervene proactively before any task or deadline is missed",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Administrative Workflow Automation System",
+              desc: "Automates document generation, filing, approval workflows, email responses, task assignment, and follow-ups — reducing workload and ensuring nothing falls through the cracks.",
+            },
+            S2: {
+              name: "AI Smart Scheduler",
+              desc: "Automatically schedules meetings based on staff availability, sends reminders and confirmations, handles recurring meetings, and optimises calendar coordination across all departments.",
+            },
+            S3: {
+              name: "AI Document and Records Management System",
+              desc: "Digitises and securely stores all student and staff records. Enables instant retrieval by search and category, and automatically generates compliance and management reports.",
+            },
+            S4: {
+              name: "AI Communication and Collaboration System",
+              desc: "Automates routine notifications, tracks communication threads and follow-ups, and integrates messaging across email, apps, and internal dashboards — full visibility across all departments.",
+            },
+            S5: {
+              name: "AI Task Monitoring and Analytics System",
+              desc: "Tracks all administrative tasks in real time, generates performance dashboards, identifies bottlenecks, and provides predictive analytics for resource allocation — keeping management always informed.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        ENR: {
+          questions: [
+            {
+              text: "During peak admissions periods, how well does your team handle the volume of inquiries from prospective students and parents across phone, email, social media, and walk-ins simultaneously?",
+              options: [
+                {
+                  label:
+                    "Inquiries are frequently missed or delayed — prospective families choose other schools because of slow response",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Staff manage during office hours but after-hours inquiries regularly go unanswered",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Response is reasonable but conversion from inquiry to enrollment could be significantly better",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All inquiries are handled instantly 24/7 across every channel — no prospective student is ever lost due to slow or missed response, at any time of day",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During high-volume admissions periods, how efficiently are applications processed, documents verified, and each application tracked through the pipeline?",
+              options: [
+                {
+                  label:
+                    "Applications are reviewed automatically, documents verified, and status tracked in real time — zero bottleneck regardless of volume",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Processing is slow and manual — errors in data entry, lost applications, and unclear status tracking are common",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Staff manage to process applications but peak periods create significant delays and backlogs",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Processing works but tracking each application individually through the pipeline is very time-consuming",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How are interviews, entrance assessments, and campus visit tours currently scheduled and coordinated with applicants?",
+              options: [
+                {
+                  label:
+                    "All scheduling is manual — conflicts occur, reminders are often forgotten, and cancellations create significant rescheduling chaos",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A system exists but manual coordination is still required and attendance for visits is lower than it should be",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Interview and visit slots are suggested automatically, reminders are sent, and changes handled dynamically — no manual coordination is ever needed",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Scheduling works but last-minute changes and sending reminders still consume significant staff time",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How consistently does your team follow up with prospective students and parents after initial contact to convert them into enrolled students?",
+              options: [
+                {
+                  label:
+                    "Follow-ups are inconsistent — many prospective students are simply lost because no one followed up with them in time",
+                  score: 3,
+                },
+                {
+                  label:
+                    "The team follows up on some leads but high-priority prospects often do not receive timely personal attention",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Follow-ups happen but they are not personalised and entirely dependent on individual staff effort and memory",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Personalised follow-ups, engagement nudges, and next-step recommendations are all automated — no prospect is ever lost to lack of follow-up",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How well does your admissions department coordinate with Finance, Academic, Student Welfare, and Administration during the enrollment process?",
+              options: [
+                {
+                  label:
+                    "Coordination is slow and manual — departments work in silos, students receive conflicting information, and enrollment completion is frequently delayed",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Coordination happens but miscommunication and delays are common, frustrating both staff and prospective families",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Generally works but tracking enrollment progress across multiple departments simultaneously is very difficult",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All interdepartmental coordination is automated with shared dashboards — everything flows without any manual chasing, every time",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Admissions Inquiry Management System",
+              desc: "Handles all prospective student inquiries 24/7 across every channel. Answers questions on programs, fees, scholarships, and deadlines, books appointments automatically, and escalates only complex cases.",
+            },
+            S2: {
+              name: "AI Application Processing and Verification System",
+              desc: "Automatically reviews applications, flags missing documents, verifies records using OCR and ML, categorises by priority, and tracks status in real time — even at peak volume.",
+            },
+            S3: {
+              name: "AI Smart Scheduler for Interviews, Assessments and Tours",
+              desc: "Automatically suggests and books slots based on availability. Sends reminders and handles cancellations and rescheduling dynamically — boosting attendance and eliminating manual coordination.",
+            },
+            S4: {
+              name: "AI Lead Nurturing and Engagement System",
+              desc: "Automates personalised follow-up emails, messages, and reminders to prospective students. Tracks engagement, responds automatically, and escalates unresponsive high-potential leads for personal attention.",
+            },
+            S5: {
+              name: "AI Interdepartmental Enrollment Coordination Platform",
+              desc: "Integrates admissions workflows with Finance, Academic, Welfare, and Admin. Automatically shares updates, payment confirmations, and enrollment approvals — with a centralised tracking dashboard.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        FIN: {
+          questions: [
+            {
+              text: "During peak fee collection periods — term start, activity deadlines — how efficiently are invoices generated, sent, and payment status tracked per student?",
+              options: [
+                {
+                  label:
+                    "Billing is manual — late fee collection, missed reminders, and confused payment status are regular issues affecting cash flow",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Invoices are sent but tracking partial payments, installment plans, and overdue accounts is still done manually",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Billing mostly works but the workload on finance staff during term start is very high and errors happen",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Invoices are generated and sent automatically, payment status is tracked in real time, and reminders go out without any manual effort — late payments are rare and cash flow is predictable",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How accurate and timely is your financial reporting — monthly, quarterly, and annual statements for school management and regulatory compliance?",
+              options: [
+                {
+                  label:
+                    "All financial reports are generated automatically with real-time data — variance analysis, compliance checks, and forecasting are always available without any manual work",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Reports require days of manual compilation — inconsistencies, errors, and missed compliance deadlines are a known recurring risk",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Reports are generated but require significant manual correction before they can be relied upon",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Reporting is manageable but predictive analytics and automated compliance checks are completely absent",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How well does your team detect and prevent financial fraud, errors, or misappropriation in school accounts and transactions?",
+              options: [
+                {
+                  label:
+                    "No automated monitoring exists — anomalies are only discovered during manual reviews or after losses have already occurred",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some oversight exists but patterns of suspicious activity are not systematically analysed",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Manual reviews happen periodically but real-time detection of unusual patterns is not possible",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All transactions are monitored automatically in real time — suspicious patterns are flagged instantly and management receives alerts before losses have a chance to compound",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how efficiently does your team coordinate with other departments for financial approvals, reimbursements, and budget allocations?",
+              options: [
+                {
+                  label:
+                    "Approval requests are routed automatically, tracked in real time, and overdue requests are flagged instantly — no financial process is ever held up by a pending manual approval",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Coordination is slow — approvals sit pending for days, bottlenecks are common, and visibility into pending requests is poor",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Approvals happen but the process requires constant manual chasing across departments",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Generally manageable but a centralised view of all pending financial requests across the school is absent",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How is staff payroll currently processed — salary calculations, allowances, deductions, tax compliance, and bank disbursement?",
+              options: [
+                {
+                  label:
+                    "Manual calculations lead to errors in payslips, delayed disbursements, and recurring tax compliance issues that create staff dissatisfaction",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Payroll is managed but calculating allowances, deductions, and tax requirements manually is very time-consuming each month",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Payroll works but keeping up with changing labour and tax regulations requires constant manual checking",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Payroll is fully automated — all calculations, payslips, compliance checks, and bank disbursements are triggered without any manual input each month, accurately and on time",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Billing and Invoicing Automation System",
+              desc: "Automatically generates and sends invoices, tracks payment status per student, sends smart reminders, handles partial payments and installment plans, and reconciles accounts in real time.",
+            },
+            S2: {
+              name: "AI Financial Analytics and Reporting System",
+              desc: "Automates generation of all financial reports. Includes budget tracking, variance analysis, compliance checks, and predictive financial forecasting — all without manual input.",
+            },
+            S3: {
+              name: "AI Fraud Detection and Risk Monitoring",
+              desc: "Continuously analyses all financial transactions for anomalies and unusual patterns. Flags suspicious activity automatically and provides real-time management alerts before losses occur.",
+            },
+            S4: {
+              name: "AI Workflow and Approval Automation",
+              desc: "Routes financial approval requests automatically, tracks all pending approvals in real time, sends reminders for overdue requests, and integrates with budgeting and reporting systems.",
+            },
+            S5: {
+              name: "AI Payroll Automation System",
+              desc: "Calculates salaries, bonuses, allowances, and deductions accurately. Generates secure payslips, ensures full tax and labour law compliance, and integrates with banks for automated disbursement.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+        MKT: {
+          questions: [
+            {
+              text: "During peak admissions and enrollment seasons, how well does your team manage high volumes of communication across email, social media, website, and messaging channels?",
+              options: [
+                {
+                  label:
+                    "Staff are overwhelmed — delayed responses and inconsistent messaging regularly damage the school image during the most critical enrollment periods",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Most channels are covered but peak periods create noticeable delays and inconsistency",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Communication is manageable but responding to social media comments and messages is often deprioritised",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All inquiries across every channel are responded to instantly and consistently — no message is ever missed and the school always presents a professional image regardless of volume",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How consistently and efficiently does your team produce newsletters, social media posts, blog articles, and promotional materials?",
+              options: [
+                {
+                  label:
+                    "Content creation is slow and manual — quality is inconsistent, deadlines are missed, and personalisation for different audiences is rarely achieved",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Content is produced but the workload is high and creative quality suffers under tight deadlines",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Output is acceptable but personalising content separately for prospective students, current parents, and alumni is too time-consuming",
+                  score: 1,
+                },
+                {
+                  label:
+                    "High-quality, personalised content is generated automatically for all channels and audiences — staff focus entirely on strategy and never on content creation itself",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How do you currently measure the performance of your marketing campaigns — enrollment impact, engagement rates, and return on marketing investment?",
+              options: [
+                {
+                  label:
+                    "Campaign performance is measured automatically in real time — conversion metrics, ROI analysis, and audience behaviour predictions inform every single decision",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "No tracking exists — decisions on future campaigns are based on opinion rather than data",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some basic metrics are reviewed but measuring actual enrollment impact of specific campaigns is very difficult",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Analytics exist but generating actionable insights from the data requires too much manual analysis",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How consistently active and well-managed is your school social media presence — posting frequency, comment responses, and monitoring of trends?",
+              options: [
+                {
+                  label:
+                    "Posts are irregular, comments go unanswered for days, and the school has no visibility into competitor or industry trends on social media",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Posting is fairly regular but response to comments and messages is slow and inconsistent",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Social media is active but managing multiple platforms simultaneously is a significant and constant manual burden",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All posts are scheduled automatically, comments and messages are monitored and responded to in real time, and competitor activity is tracked continuously — without any manual intervention",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During open days, enrollment campaigns, and school events, how effectively does your team manage invitations, attendance, and post-event follow-up?",
+              options: [
+                {
+                  label:
+                    "Invitations, reminders, attendance tracking, feedback, and post-event analytics are all automated — staff focus entirely on event delivery itself",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Coordination is largely manual — invitation tracking, RSVPs, and follow-up are inconsistent and time-consuming",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Events are managed but measuring effectiveness and using data to improve future campaigns is rarely done",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Event logistics work but administrative overhead is high and post-event follow-up campaigns are often neglected",
+                  score: 1,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Communication Automation System",
+              desc: "Responds instantly to inquiries via email, website, and social media. Provides consistent school information around the clock and escalates complex issues to staff automatically.",
+            },
+            S2: {
+              name: "AI Content Creation and Personalisation System",
+              desc: "Automatically generates newsletters, social media content, website copy, and promotional materials. Personalises for different audiences and suggests trending topics to maximise engagement.",
+            },
+            S3: {
+              name: "AI Marketing Analytics and Campaign Optimisation",
+              desc: "Tracks engagement, reach, and conversion metrics automatically. Analyses campaign performance, suggests adjustments, and predicts audience behaviour to continuously improve enrollment ROI.",
+            },
+            S4: {
+              name: "AI Social Media Management System",
+              desc: "Schedules posts across all platforms automatically, monitors and responds to comments and messages in real time, and tracks competitor activity for content intelligence.",
+            },
+            S5: {
+              name: "AI Event Management and Campaign Automation",
+              desc: "Sends personalised invitations and reminders, tracks attendance and engagement, collects post-event feedback automatically, and generates analytics to optimise future campaigns.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        FAC: {
+          questions: [
+            {
+              text: "During peak usage periods — exam season, events, sports day, full boarding — how proactively is maintenance managed for classrooms, labs, dormitories, and common areas?",
+              options: [
+                {
+                  label:
+                    "All maintenance is automatically scheduled, equipment usage monitored in real time, and failures predicted before they affect any class or school activity — without exception",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Fully reactive — facilities are only attended to after something breaks down, disrupting classes or school activities",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A manual schedule exists but it is inconsistently followed, especially during busy periods",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Preventive maintenance happens but tracking compliance and completion across all facilities is difficult",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How efficiently does your team monitor energy and utility consumption — electricity, water, HVAC — across the entire school campus?",
+              options: [
+                {
+                  label:
+                    "Energy use is not monitored — costs are only seen when utility bills arrive and waste is only identified retrospectively",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some monitoring exists but real-time data and automated energy controls are absent",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Monitoring is in place but energy waste in specific areas goes unaddressed for too long",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Energy consumption is tracked in real time across all buildings — automated HVAC and lighting optimisation runs continuously and utility costs are consistently minimised",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How well are physical school assets — projectors, lab equipment, sports facilities, vehicles — tracked, maintained, and replaced when needed?",
+              options: [
+                {
+                  label:
+                    "Asset tracking is manual and inconsistent — equipment goes missing, downtime disrupts school activities, and replacement planning is entirely reactive",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some tracking exists but predicting maintenance needs or planning replacements is largely guesswork",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Asset records exist but are not consistently maintained enough to support proper lifecycle or budget planning",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All assets are tracked in real time with predictive maintenance alerts — no equipment failure has ever disrupted a class or school activity without prior warning",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how are facility requests from staff and students — room setups, repairs, cleaning — received, assigned, and tracked to completion?",
+              options: [
+                {
+                  label:
+                    "Requests come via WhatsApp or verbally — delays are common, status updates are absent, and staff dissatisfaction is high",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A request process exists but task assignment and completion tracking is still largely manual and slow",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Requests are managed but communication around task status frustrates both staff and students",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All requests are submitted digitally, automatically assigned to the right person, and tracked with real-time status updates — no request is ever lost or delayed without explanation",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How consistently are safety compliance requirements, scheduled inspections, and hygiene standards across the school maintained and documented?",
+              options: [
+                {
+                  label:
+                    "Inspections are missed, hygiene checks are inconsistent, and safety hazards sometimes go unaddressed — the school faces real compliance and liability risks",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some compliance tracking exists but upcoming inspections and regulatory deadlines are sometimes missed",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Inspections happen but tracking all compliance requirements manually across the whole campus is very laborious",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All safety checks, compliance deadlines, and hygiene monitoring are automated — no inspection has ever been missed and no compliance warning has ever been received",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Maintenance Scheduling and Tracking System",
+              desc: "Automatically generates and tracks maintenance schedules for all facilities. Sends alerts for upcoming tasks, predicts needs from usage data, and prioritises by urgency to prevent breakdowns.",
+            },
+            S2: {
+              name: "AI Energy and Resource Management System",
+              desc: "Tracks energy and water usage in real time across all school buildings. Detects abnormal consumption, automates energy-saving controls on HVAC and lighting, and generates savings reports.",
+            },
+            S3: {
+              name: "AI Asset Monitoring and Predictive Maintenance System",
+              desc: "Tracks all physical assets — location, condition, and usage in real time. Predicts when equipment requires maintenance or replacement and alerts staff before failures disrupt school operations.",
+            },
+            S4: {
+              name: "AI Facilities Request Management System",
+              desc: "Automates request submission and tracking via mobile app, WhatsApp, or portal. Assigns tasks to the right maintenance staff automatically and provides real-time status updates to requesters.",
+            },
+            S5: {
+              name: "AI Safety and Compliance Monitoring System",
+              desc: "Tracks all inspections, certifications, and compliance requirements. Alerts staff about upcoming safety checks and deadlines, and analyses historical data to predict and prevent risks proactively.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        ICT: {
+          questions: [
+            {
+              text: "During peak usage periods — exam season, online assessments, result uploads — how reliably do your school technology systems stay up and running?",
+              options: [
+                {
+                  label:
+                    "System downtime during critical academic periods is a recurring problem — classes and exams have been directly disrupted",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Systems are mostly stable but failures are always discovered reactively, not by proactive monitoring",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Performance is generally acceptable but real-time monitoring or predictive alerting capability is absent",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All systems are monitored proactively 24/7 — potential issues are detected and resolved before they cause any downtime and no class or exam has ever been disrupted by a system failure",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How confident are you in your school protection against cybersecurity threats — data breaches, unauthorised access to student records, and malware?",
+              options: [
+                {
+                  label:
+                    "Minimal protection exists — the school has no active threat monitoring and student and staff data is at significant risk",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Basic antivirus is installed but there is no active network monitoring or threat intelligence capability",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Some protection measures exist but automated detection and a coordinated incident response process are absent",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Network activity is monitored in real time, threats are automatically detected and blocked, and the school is fully compliant with all data protection requirements",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how efficiently does your team handle the volume of IT support requests from teachers and administrative staff?",
+              options: [
+                {
+                  label:
+                    "All IT requests are automatically categorised, prioritised, and resolved with AI-driven troubleshooting — no staff member ever waits on a critical issue during a class or exam period",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Support backlogs are common — staff wait too long for IT help and it directly impacts teaching and administration",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Requests are managed but tracking, prioritisation, and resolution times are inconsistent",
+                  score: 2,
+                },
+                {
+                  label:
+                    "IT support works but there is no self-service or automated troubleshooting for common recurring issues",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How well are your school management and digital learning platforms — LMS, grading systems, communication tools — performing and integrated with each other?",
+              options: [
+                {
+                  label:
+                    "Platforms experience downtime, poor integration means data must be entered manually across multiple systems",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Platforms are operational but poor integration creates significant duplication of effort and inconsistent records",
+                  score: 2,
+                },
+                {
+                  label:
+                    "All platforms are monitored automatically, updates and backups run without manual intervention, and data flows seamlessly between academic and administrative systems",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Systems work individually but lack of integration creates significant duplication of effort for staff",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How effectively are ICT assets — computers, projectors, servers, and software licences — tracked, managed, and planned for upgrade?",
+              options: [
+                {
+                  label:
+                    "Asset tracking is manual and incomplete — equipment goes missing, licences expire unnoticed, and ICT budget planning is based on guesswork",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A register exists but it is not consistently updated and licence management is largely reactive",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Assets are tracked but predicting upgrade needs and optimising licence spending is difficult without real-time usage data",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All ICT hardware and software assets are tracked in real time — licence renewals are automated, usage monitored, and upgrade planning is fully data-driven",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Smart IT Infrastructure Monitoring System",
+              desc: "Continuously monitors all school technology systems — servers, networks, learning platforms, and payment systems. Detects anomalies before they cause downtime and alerts ICT teams proactively.",
+            },
+            S2: {
+              name: "AI Network Monitoring and Cybersecurity System",
+              desc: "Monitors network activity in real time, identifies and responds to security threats automatically, predicts system failures, and generates automated security compliance reports.",
+            },
+            S3: {
+              name: "AI IT Helpdesk and Ticketing System",
+              desc: "Automatically receives, categorises, and prioritises all IT support requests. Provides instant resolution for common issues via chatbot, escalates complex problems, and tracks all tickets in real time.",
+            },
+            S4: {
+              name: "AI School Management and Digital Learning Platform",
+              desc: "Integrates academic records, attendance, timetables, and grading into one AI-managed system. Personalises digital learning content and automates progress tracking for students and teachers.",
+            },
+            S5: {
+              name: "AI ICT Asset Management System",
+              desc: "Tracks all hardware and software assets in real time. Monitors licence usage and renewal dates, predicts upgrade needs, and generates inventory reports for accurate ICT budget planning.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        SEC: {
+          questions: [
+            {
+              text: "During peak campus activity periods — school opening, dismissal time, events, and exam days — how effectively does your team monitor all campus areas simultaneously?",
+              options: [
+                {
+                  label:
+                    "Manual CCTV monitoring means incidents are frequently missed or detected only after the fact",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Coverage is reasonable but reviewer fatigue during long school days reduces monitoring effectiveness",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Monitoring works but reviewing footage after an incident is very slow and resource-intensive",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All cameras across every campus area are analysed by AI simultaneously in real time — suspicious activity is detected and security alerted instantly regardless of how busy the campus is",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How confident are you in your access control at campus entry points and restricted areas — laboratories, server rooms, administrative offices?",
+              options: [
+                {
+                  label:
+                    "Access control is minimal — unauthorised entry happens and there is no reliable audit trail of who entered where",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Entry points have basic control but monitoring who accesses restricted areas and when is still largely manual",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Access control exists at main entrances but restricted area monitoring is inconsistent",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All access points are managed with biometric or smart ID verification, entry and exit logged in real time, and restricted areas automatically protected — access is always fully accounted for",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how efficiently are visitors — parents, vendors, contractors — screened, verified, and tracked across the campus?",
+              options: [
+                {
+                  label:
+                    "Visitor management is manual — sign-in books are used, verification is inconsistent, and unauthorised visitors have entered campus without being detected",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A sign-in process exists but it is not digital and tracking visitor history or generating reports is very difficult",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Visitor management works for small volumes but high-traffic periods create confusion and long queues at entry points",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Visitors are automatically checked in, verified, photographed, issued digital passes, and tracked through exit — any unauthorised access attempt triggers an instant security alert",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak campus periods, how quickly can your team detect and respond to security incidents — fights, trespassing, medical emergencies, or fire?",
+              options: [
+                {
+                  label:
+                    "Incidents are automatically detected, the right teams instantly alerted, real-time guidance provided, and a digital incident report generated — response is always fast and coordinated, without exception",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Response relies on staff physically noticing and reporting — by which time situations have often already escalated",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Protocols exist but getting accurate alerts to the right people quickly during chaotic periods is still a challenge",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Response is reasonable but incident documentation and post-incident analysis are done manually and inconsistently",
+                  score: 1,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Surveillance and Monitoring System",
+              desc: "Continuously monitors all CCTV feeds for unusual or suspicious activity. Detects unauthorised access in real time, sends instant alerts to security personnel, and analyses patterns to predict risks.",
+            },
+            S2: {
+              name: "AI Access Control System",
+              desc: "Manages campus entry using facial recognition, biometric scans, or smart ID cards. Automatically logs all entries and exits, restricts access to sensitive areas, and generates real-time access reports.",
+            },
+            S3: {
+              name: "AI Visitor Management System",
+              desc: "Automates visitor check-in and verification, captures visitor information and photos, issues digital passes, tracks exit times, and alerts security immediately if unauthorised access is attempted.",
+            },
+            S4: {
+              name: "AI Emergency Response System",
+              desc: "Detects emergencies through sensors, alarms, and surveillance feeds. Automatically alerts relevant personnel and emergency services, provides real-time evacuation guidance, and tracks incident resolution.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4" },
+        },
+
+        HR: {
+          questions: [
+            {
+              text: "During peak hiring periods — new term preparations, staff replacements, school expansion — how efficiently does your team manage recruitment across multiple roles simultaneously?",
+              options: [
+                {
+                  label:
+                    "Manual screening of large volumes of applications during busy periods overwhelms HR and extends time-to-hire significantly",
+                  score: 3,
+                },
+                {
+                  label:
+                    "HR manages but high-volume periods create clear bottlenecks and inconsistent candidate evaluation",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Hiring works but onboarding tasks — document collection, account setup, orientation — are slow and manual",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Recruitment is fully automated — CVs screened and shortlisted instantly, interviews scheduled automatically, and best candidates identified without manual effort at any volume",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How objectively and consistently does your team evaluate staff performance and identify training or development needs?",
+              options: [
+                {
+                  label:
+                    "Performance assessments are subjective — there is no consistent data-driven approach and identifying skill gaps is largely guesswork",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some performance tracking exists but it relies heavily on supervisor opinion rather than data",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Evaluations happen periodically but the data is not used systematically to inform training or promotion decisions",
+                  score: 1,
+                },
+                {
+                  label:
+                    "KPIs and productivity metrics are tracked automatically, performance trends analysed, personalised training recommended, and management reports produced without any manual effort",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how well do staff attendance records, leave requests, and working hour tracking hold up across all school departments?",
+              options: [
+                {
+                  label:
+                    "Attendance is tracked via biometric or facial recognition, leave requests approved digitally, payroll integration is automatic — with zero manual input from HR staff",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Attendance is tracked manually — errors in records, delays in leave approvals, and payroll discrepancies are common",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A tracking system exists but it is not integrated with payroll and leave approvals are slow and inconsistently handled",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Attendance is tracked but generating real-time reports and identifying absence patterns is difficult",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How consistently are staff engaged, communicated with, and surveyed — and how quickly are low morale or workplace concerns identified before they escalate?",
+              options: [
+                {
+                  label:
+                    "Engagement is rarely measured — staff feel disconnected, low morale goes undetected, and concerns only surface when they escalate into serious problems",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some staff surveys exist but participation is low and acting on results consistently is difficult",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Communication is adequate but there is no systematic way to measure actual staff wellbeing or engagement levels",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Automated surveys measure sentiment regularly, engagement analytics reviewed by HR, personalised communications sent, and concerns identified before they escalate",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How is staff payroll currently processed — salary calculations, allowances, tax deductions, and bank disbursement?",
+              options: [
+                {
+                  label:
+                    "Manual payroll processing leads to calculation errors, delayed disbursements, and recurring tax compliance issues that create staff dissatisfaction",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Payroll is managed but calculating allowances, bonuses, and deductions for all staff manually is very time-consuming each month",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Payroll works but maintaining full compliance with labour and tax regulations requires constant manual checking",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Payroll is fully automated — all calculations, payslips, compliance checks, and bank disbursements happen without any manual intervention each month, accurately and on time",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Recruitment and Onboarding System",
+              desc: "Screens CVs and shortlists candidates automatically, schedules interviews, automates onboarding tasks including document collection and account setup, and provides hiring analytics.",
+            },
+            S2: {
+              name: "AI Performance Management System",
+              desc: "Tracks KPIs and productivity metrics automatically, analyses staff performance trends, recommends personalised training programmes, and generates management reports for data-driven decisions.",
+            },
+            S3: {
+              name: "AI Attendance and Time Management System",
+              desc: "Tracks staff attendance via biometric or facial recognition, automates leave requests and approvals, integrates data directly with payroll, and generates real-time attendance and pattern reports.",
+            },
+            S4: {
+              name: "AI Employee Engagement System",
+              desc: "Conducts automated staff surveys, analyses sentiment and engagement levels, provides personalised communications and notifications, and suggests interventions to improve morale proactively.",
+            },
+            S5: {
+              name: "AI Payroll Automation System",
+              desc: "Calculates salaries, allowances, deductions, and taxes accurately. Generates secure payslips, ensures compliance with labour and tax regulations, and integrates with banks for automated disbursement.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+        TRP: {
+          questions: [
+            {
+              text: "During peak transport periods — morning arrival, afternoon dismissal, and school trip days — how efficiently are bus routes planned and adjusted for traffic and schedule changes?",
+              options: [
+                {
+                  label:
+                    "Routes are manually planned — long travel times, fuel inefficiency, and poor adaptation to traffic or last-minute changes are regular problems",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Basic routes are established but they are rarely reviewed or adjusted for traffic conditions or schedule changes",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Route planning works but real-time adjustment during delays or unexpected changes is not possible",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All routes are automatically optimised based on student locations and real-time traffic — fuel costs and travel times are consistently minimised without any manual route planning",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During transit, how well can parents and school management track bus locations and confirm that students have boarded safely?",
+              options: [
+                {
+                  label:
+                    "No live tracking exists — parents call repeatedly for updates and the school has no visibility into where buses are during transit",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Basic GPS tracking exists but parent notification is manual and student boarding confirmation is not tracked",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Tracking is available internally but is not shared with parents and boarding confirmation is not possible",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All buses are tracked in real time via GPS, parents receive automated arrival and departure notifications, and student boarding is confirmed digitally via smart ID or facial recognition",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak transport periods, how well does your team communicate schedule changes, delays, and emergencies to parents and school management?",
+              options: [
+                {
+                  label:
+                    "Communication is reactive and entirely manual — parents only find out about delays when they call, generating high volumes of complaints",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some notifications are sent but the process is inconsistent and relies on individual staff remembering to communicate",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Communication works for planned updates but real-time notifications during unexpected delays or emergencies are poorly handled",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Automated notifications are sent to parents via mobile app, SMS, or WhatsApp for all schedule changes, delays, and arrivals — two-way communication is always available and complaints are rare",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How proactively is vehicle maintenance managed across the school transport fleet to prevent breakdowns that could disrupt student transport?",
+              options: [
+                {
+                  label:
+                    "All vehicle condition and usage data is monitored in real time — maintenance is scheduled automatically and management is always alerted before any potential breakdown can occur",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Maintenance is reactive — vehicles break down unexpectedly, disrupting student transport and forcing emergency alternatives",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A maintenance schedule exists but it is not always followed and unexpected breakdowns still happen",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Maintenance happens but predicting needs from actual usage data rather than fixed time intervals is not possible",
+                  score: 1,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Route Optimisation System",
+              desc: "Automatically designs the most efficient bus routes based on student locations. Adjusts in real time for traffic conditions, optimises pickup schedules, and reduces unnecessary mileage and delays.",
+            },
+            S2: {
+              name: "AI GPS Tracking and Student Monitoring System",
+              desc: "Tracks all bus locations in real time, notifies parents of arrivals and departures automatically, and confirms student boarding and drop-off through smart ID or facial recognition.",
+            },
+            S3: {
+              name: "AI Parent and Staff Communication System",
+              desc: "Sends automated notifications about schedules, delays, and arrivals via mobile app, SMS, or WhatsApp. Enables two-way communication and reduces repetitive inquiries through automated responses.",
+            },
+            S4: {
+              name: "AI Fleet Maintenance System",
+              desc: "Monitors vehicle condition and usage in real time, predicts maintenance needs from usage patterns, schedules servicing automatically, and alerts management before potential breakdowns occur.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4" },
+        },
+
+        CAT: {
+          questions: [
+            {
+              text: "During peak meal periods — breakfast, lunch, and special event catering — how efficiently does your kitchen manage meal preparation and serving for the full student population?",
+              options: [
+                {
+                  label:
+                    "Meal plans are generated automatically, distribution scheduled by class group, and serving flow fully optimised — queues and delays simply do not occur, without exception",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Long queues, slow service, unequal portions, and meal planning based on guesswork are regular and visible problems during peak times",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Meals are prepared and served but peak periods create visible congestion and inconsistent service quality",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Service works generally but meal planning does not adequately account for dietary needs, preferences, or nutritional standards",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "How accurately is food inventory tracked and restocked — and how often do ingredient shortages or overstocking and food wastage occur?",
+              options: [
+                {
+                  label:
+                    "Manual tracking means ingredient shortages during meal preparation and food waste from overstocking are both known and recurring cost problems",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Periodic stock counts happen but the process is reactive and shortages still occur at inconvenient times",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Stock is mostly adequate but reordering is based on estimates rather than actual consumption data",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Food stock is tracked in real time with demand-based forecasting — shortages during service and over-purchasing have been completely eliminated",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How consistently are food safety and hygiene standards maintained across the kitchen, storage areas, and serving stations?",
+              options: [
+                {
+                  label:
+                    "Hygiene monitoring is manual — cleaning schedules are inconsistently followed and safety checks are sometimes missed entirely",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Standards are generally maintained but inspections and compliance documentation require significant manual effort",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Hygiene is adequate but proving compliance during regulatory inspections requires a lot of manual record compilation",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All hygiene and safety compliance is automated — kitchen conditions monitored continuously, cleaning tracked, and any violation triggers an immediate alert without any manual checking needed",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How well is the catering budget tracked and managed — including cost per meal, total food expenditure, and identifying where wastage is occurring?",
+              options: [
+                {
+                  label:
+                    "Budget management is largely manual — overspending is only discovered retrospectively and cost optimisation rarely happens",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some cost tracking exists but real-time visibility into daily food expenditure and wastage is not available",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Budget is tracked periodically but the data is not granular enough to identify specific areas for cost reduction",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All food costs are tracked in real time, cost per meal is automatically calculated, and wastage or inefficiency areas are flagged automatically for management action",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Meal Planning and Distribution System",
+              desc: "Generates balanced meal plans automatically, customises for dietary needs and preferences, schedules distribution by class group to eliminate queues, and tracks meal collection via student ID or biometrics.",
+            },
+            S2: {
+              name: "AI Inventory and Stock Management System",
+              desc: "Tracks food inventory in real time, predicts demand from consumption patterns, automates reordering, and optimises stock levels to eliminate both shortages and wastage simultaneously.",
+            },
+            S3: {
+              name: "AI Food Safety and Hygiene Monitoring System",
+              desc: "Tracks cleaning schedules and hygiene compliance, monitors kitchen conditions including temperature and storage, sends immediate alerts for violations, and generates automated inspection and compliance reports.",
+            },
+            S4: {
+              name: "AI Cost and Budget Management System",
+              desc: "Tracks all food costs in real time, calculates cost per meal automatically, identifies wastage and inefficiency areas, and generates financial reports for management review and decision-making.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4" },
+        },
+
+        HLT: {
+          questions: [
+            {
+              text: "During peak illness periods — malaria season, term start, boarding school outbreaks — how efficiently does your clinic manage the high volume of student health visits?",
+              options: [
+                {
+                  label:
+                    "The clinic is overwhelmed — long wait times, repetitive minor cases consuming medical staff time, and critical cases sometimes not getting timely attention",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Volume is manageable most of the time but peak illness periods create clear backlogs and delays for more serious cases",
+                  score: 2,
+                },
+                {
+                  label:
+                    "The clinic copes but medical staff spend too much time on minor recurring complaints that could be managed differently",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Initial symptom assessment is handled digitally, minor cases guided automatically, critical cases instantly prioritised, and medical staff focus exclusively on cases that genuinely require their expertise",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During a medical emergency, how quickly and accurately can your medical staff access a student complete health history, allergies, and existing conditions?",
+              options: [
+                {
+                  label:
+                    "All student health records are instantly accessible digitally, medical history and allergies always available at point of care, and integration with parent and school systems is seamless and real-time",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Health records are in physical files or fragmented systems — in an emergency, critical information is often not immediately accessible",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some records are digital but the system is incomplete and retrieving full health history quickly during an emergency is still difficult",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Records are mostly available but keeping them consistently updated across all students is very time-consuming",
+                  score: 1,
+                },
+              ],
+            },
+            {
+              text: "For students with specific health needs, how reliably are medication schedules, dosages, and treatment records managed day to day?",
+              options: [
+                {
+                  label:
+                    "Medication management is manual — missed doses, incorrect administration, and poor documentation are known risks that have occurred before",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Records exist but reminders and tracking for daily medication administration are inconsistent",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Medication is generally managed but documentation is not always complete and accountability is difficult to enforce",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Medication administration is tracked automatically, reminders sent to medical staff, all treatments recorded digitally, and missed doses trigger instant alerts — without fail",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak periods, how effectively does your medical team coordinate with parents, teachers, and external healthcare providers for ongoing cases, referrals, and emergencies?",
+              options: [
+                {
+                  label:
+                    "Communication is fragmented and slow — parents are informed late, teachers are not updated, and referrals to external providers are poorly coordinated",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Communication generally happens but it is manual and delayed — especially during emergencies when speed is critical",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Coordination is adequate for routine cases but falls apart during complex or emergency situations",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Parents are notified in real time, teachers and management receive instant updates, external referrals managed digitally with complete medical history, and all stakeholders have appropriate secure access",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How proactively are routine health screenings, vaccinations, and annual checks managed and tracked across the entire student body?",
+              options: [
+                {
+                  label:
+                    "All screenings are automatically scheduled by age and grade, vaccination reminders sent proactively, results recorded digitally, and abnormal findings trigger automatic follow-up alerts — always",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Screenings and vaccinations are managed manually — schedules are inconsistent, reminders are forgotten, and some students miss required health checks entirely",
+                  score: 3,
+                },
+                {
+                  label:
+                    "A schedule exists but tracking which students have actually completed their required health checks is difficult and labour-intensive",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Screenings happen but the administrative workload for coordinating, recording, and following up is very high",
+                  score: 1,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Triage and Virtual Health Support System",
+              desc: "Performs initial symptom assessment digitally, provides guidance for minor health issues, prioritises all cases by severity, and escalates serious conditions to medical staff immediately.",
+            },
+            S2: {
+              name: "AI Digital Health Records System",
+              desc: "Stores and manages comprehensive digital health records for every student. Provides instant access to medical history, allergies, and conditions at point of care, integrated with parent and school systems.",
+            },
+            S3: {
+              name: "AI Medication Management System",
+              desc: "Tracks medication schedules and dosages, sends reminders to medical staff for administration, records all treatments digitally, and alerts staff immediately in case of missed doses or errors.",
+            },
+            S4: {
+              name: "AI Integrated Health Coordination System",
+              desc: "Automatically notifies parents when students visit the clinic, shares health updates with teachers and management, manages referrals to external providers digitally, and provides a centralised secure dashboard for all stakeholders.",
+            },
+            S5: {
+              name: "AI Health Screening and Routine Check System",
+              desc: "Schedules health screenings by age and grade automatically, tracks vaccinations with proactive reminders, records results digitally, flags abnormal findings, and generates reports for school leadership and parents.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4", 4: "S5" },
+        },
+
+        SPT: {
+          questions: [
+            {
+              text: "During peak activity periods — sports season, inter-house competitions, events calendar clashes — how well are sports facilities and training schedules managed to avoid conflicts?",
+              options: [
+                {
+                  label:
+                    "Facility conflicts are common — fields, courts, and halls are double-booked regularly and training schedules frequently clash with academic activities",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Scheduling works most of the time but peak periods create visible conflicts that take significant effort to manually resolve",
+                  score: 2,
+                },
+                {
+                  label:
+                    "A timetable exists but adapting it dynamically when priorities change or new events are added is slow and manual",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All facility bookings and training schedules are automatically optimised — conflicts are impossible and real-time visibility is always available to all staff and students",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How effectively does your department track student participation and individual performance in sports and co-curricular activities over time?",
+              options: [
+                {
+                  label:
+                    "Tracking is inconsistent — records are incomplete, performance data is rarely collected, and team selection is entirely based on coach observation with no supporting data",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Some records are kept but they are not comprehensive enough for data-driven selection or development decisions",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Participation is tracked but performance analytics and trends across seasons are absent",
+                  score: 1,
+                },
+                {
+                  label:
+                    "Student attendance and participation are tracked automatically and coaches receive data-driven insights for talent identification, team selection, and development planning",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "How well does communication about sports schedules, match fixtures, training requirements, and kit deadlines reach students and parents consistently?",
+              options: [
+                {
+                  label:
+                    "Communication is manual and inconsistent — students miss training, parents are not updated about fixtures, and schedule confusion is frequent",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Most communication happens but it relies heavily on individual coaches remembering to send updates manually",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Communication works for major events but routine training updates and requirement reminders are inconsistently delivered",
+                  score: 1,
+                },
+                {
+                  label:
+                    "All updates — schedules, fixtures, requirements, and reminders — are sent automatically to students and parents and common inquiries are handled by chatbot without staff involvement",
+                  score: 0,
+                  isCorrect: true,
+                },
+              ],
+            },
+            {
+              text: "During peak competition periods, how efficiently are tournaments, inter-house events, and match fixtures organised, tracked, and reported?",
+              options: [
+                {
+                  label:
+                    "Match scheduling, team registrations, scoring, rankings, and post-event reporting are all automated — staff focus entirely on coaching and delivering a great student experience",
+                  score: 0,
+                  isCorrect: true,
+                },
+                {
+                  label:
+                    "Tournament organisation is manual — scheduling matches, managing registrations, tracking scores, and generating results reports are all labour-intensive and error-prone",
+                  score: 3,
+                },
+                {
+                  label:
+                    "Events are organised but the administrative workload around fixtures, results tracking, and post-event reporting is very high",
+                  score: 2,
+                },
+                {
+                  label:
+                    "Competitions are managed but real-time results tracking and automated standings updates are not available",
+                  score: 1,
+                },
+              ],
+            },
+          ],
+          solutions: {
+            S1: {
+              name: "AI Sports Scheduling and Facility Management System",
+              desc: "Automatically schedules training sessions, matches, and facility usage. Prevents conflicts by optimising time and space allocation and adjusts schedules dynamically based on changing availability and priorities.",
+            },
+            S2: {
+              name: "AI Participation and Performance Tracking System",
+              desc: "Tracks student attendance and participation automatically, analyses performance metrics including fitness levels and match statistics, identifies emerging talent, and generates reports for coaches and management.",
+            },
+            S3: {
+              name: "AI Communication and Notification System",
+              desc: "Sends automated updates on training schedules, matches, and events to students and parents. Handles common inquiries through chatbot and provides reminders for practice sessions and kit deadlines.",
+            },
+            S4: {
+              name: "AI Competition and Event Management System",
+              desc: "Automates match and tournament scheduling, manages team registrations, tracks scores and rankings in real time, and generates post-event reports and insights for future planning and performance improvement.",
+            },
+          },
+          scoreMap: { 0: "S1", 1: "S2", 2: "S3", 3: "S4" },
+        },
+        MGT: {
+          isMgmt: true,
+          sections: [
+            {
+              dept: "Academic",
+              icon: "📚",
+              questions: [
+                {
+                  text: "During peak academic periods, how consistently does your teaching staff deliver high-quality, curriculum-aligned lessons across all subjects and grades?",
+                  options: [
+                    {
+                      label:
+                        "Lesson quality varies significantly by teacher and curriculum gaps occur regularly",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Lesson quality is consistently high across all subjects and grades — curriculum compliance is fully maintained and teacher workload is never a concern, without exception",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                    {
+                      label:
+                        "Quality is generally acceptable but teacher workload during peak periods visibly impacts lesson preparation",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Occasional inconsistency but generally well managed",
+                      score: 1,
+                    },
+                  ],
+                },
+                {
+                  text: "How quickly does your school identify and actively support students who are academically struggling or falling behind?",
+                  options: [
+                    {
+                      label:
+                        "Struggling students are only identified after they have already significantly failed — intervention always comes too late",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Some early identification happens but support provision is inconsistent across different teachers",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Teachers identify struggling students individually but there is no systematic or automated early warning process",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "At-risk students are automatically identified early and receive personalised support — no student falls far behind without timely intervention",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: [
+                "AI Personalised Learning and Virtual Academic Support",
+                "AI-Powered Assessment and Grading System",
+              ],
+            },
+            {
+              dept: "Student Affairs",
+              icon: "🤝",
+              questions: [
+                {
+                  text: "Does your student affairs team have real-time visibility into student wellbeing — academic stress, emotional risk, disengagement — before crises occur?",
+                  options: [
+                    {
+                      label:
+                        "Wellbeing issues are only discovered reactively when a student presents a crisis",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Some monitoring exists but it relies heavily on individual teacher reports rather than integrated data",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Basic welfare monitoring is in place but early intervention is inconsistent",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Multiple data sources are analysed automatically — at-risk students are identified and flagged before crises occur",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI Student Wellbeing Analytics"],
+            },
+            {
+              dept: "Admissions",
+              icon: "📋",
+              questions: [
+                {
+                  text: "During peak admissions periods, how quickly does your team respond to inquiries from prospective students and parents?",
+                  options: [
+                    {
+                      label:
+                        "Inquiries are missed or delayed — prospective students are choosing other schools due to slow response time",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "All inquiries are handled instantly 24/7 — no prospective family is ever lost due to slow or missed response",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                    {
+                      label:
+                        "Staff manage during office hours but after-hours inquiries go unanswered",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Response is generally adequate but conversion from inquiry to enrollment could be much better",
+                      score: 1,
+                    },
+                  ],
+                },
+                {
+                  text: "How consistently does your admissions team follow up with prospective students to convert initial interest into confirmed enrollment?",
+                  options: [
+                    {
+                      label:
+                        "Follow-ups are inconsistent — prospective students are regularly lost simply because no one followed up in time",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Follow-ups occur but they are not personalised and entirely dependent on individual staff effort and memory",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Some follow-up happens but high-priority leads do not always receive timely personal attention",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "All follow-ups are automated and personalised — no prospect is ever lost to lack of follow-up, without exception",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: [
+                "AI Admissions Inquiry Management System",
+                "AI Lead Nurturing and Engagement System",
+              ],
+            },
+            {
+              dept: "Finance",
+              icon: "💰",
+              questions: [
+                {
+                  text: "During peak fee collection periods, how efficiently are invoices sent, payment status tracked, and reminders managed per student?",
+                  options: [
+                    {
+                      label:
+                        "Manual billing creates late payments, missed reminders, and cash flow problems that affect school operations",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Billing is managed but the workload during term start is very high and errors occasionally occur",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Generally works but tracking overdue accounts and partial payments is labour-intensive",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Billing is fully automated — invoices sent, payments tracked, and reminders delivered without any manual effort",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+                {
+                  text: "Do you have real-time visibility into school revenue, expenses, and budget performance across all departments?",
+                  options: [
+                    {
+                      label:
+                        "Financial visibility only comes at month-end through manual report compilation",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Some data is available but consolidating it across all departments requires significant manual work",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Reports are generated but they are not real-time and predictive analytics are absent",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Live financial dashboards show real-time data across all departments — management can access accurate financials at any moment without waiting for reports",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: [
+                "AI Billing and Invoicing Automation System",
+                "AI Financial Analytics and Reporting System",
+              ],
+            },
+            {
+              dept: "Marketing",
+              icon: "📣",
+              questions: [
+                {
+                  text: "During enrollment season, how consistently does your school communicate with prospective students and parents across all channels?",
+                  options: [
+                    {
+                      label:
+                        "Communication is delayed and inconsistent — missed opportunities during the critical enrollment window are common",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Peak periods create noticeable gaps and response delays that hurt the school image",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Communication is manageable but personalising messages for different audience types is too time-consuming",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "All channels are always active, responses are instant 24/7, and content is consistently published regardless of season or workload",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI Communication Automation System"],
+            },
+            {
+              dept: "Facilities",
+              icon: "🏗",
+              questions: [
+                {
+                  text: "During peak usage periods, how proactively are school facilities and equipment maintained to prevent disruptions to classes and activities?",
+                  options: [
+                    {
+                      label:
+                        "Maintenance is reactive only — classes and activities are regularly disrupted by equipment failures and facility problems",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "A schedule exists but reactive maintenance is still common, especially during busy periods",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Preventive maintenance happens but asset tracking and lifecycle planning remain largely manual",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Maintenance is fully predictive — no class or activity has ever been disrupted by an equipment failure or facility issue",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI Maintenance Scheduling and Tracking System"],
+            },
+            {
+              dept: "Security",
+              icon: "🔒",
+              questions: [
+                {
+                  text: "During peak campus activity periods, how effectively is the entire campus monitored and how quickly are security incidents detected and responded to?",
+                  options: [
+                    {
+                      label:
+                        "Manual monitoring means incidents are frequently missed or detected only after situations have already escalated",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Coverage is reasonable but reviewer fatigue during long school days reduces monitoring effectiveness",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Monitoring is in place but incident response coordination during peak periods is slow",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "AI monitors all campus areas simultaneously — suspicious activity detected instantly and response is always fast and coordinated, regardless of campus size or time of day",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI Surveillance and Monitoring System"],
+            },
+            {
+              dept: "Transport",
+              icon: "🚌",
+              questions: [
+                {
+                  text: "During peak transport periods, how well can parents and school management track student safety — bus locations and confirmed boarding?",
+                  options: [
+                    {
+                      label:
+                        "No live tracking exists — parents call repeatedly for updates and the school has no visibility during transit",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Basic tracking exists but parent notification and boarding confirmation are still manual",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Tracking is available internally but parents are not automatically updated on bus status",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Real-time GPS tracking, automated parent notifications, and digital boarding confirmation are all fully in place — parents always know where their children are",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI GPS Tracking and Student Monitoring System"],
+            },
+            {
+              dept: "Health / Medical",
+              icon: "🏥",
+              questions: [
+                {
+                  text: "During peak illness periods, how quickly can medical staff access student health records and coordinate emergency communication with parents?",
+                  options: [
+                    {
+                      label:
+                        "Records are in physical files — in an emergency critical information is not immediately accessible and parent communication is too slow",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Records are partially digital but access speed during emergencies and parent coordination are still too slow",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Health records are available but coordination with parents and external providers is still largely manual",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Records are instantly accessible, parents notified in real time, and all stakeholders have secure coordinated access during any emergency",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: [
+                "AI Digital Health Records System",
+                "AI Integrated Health Coordination System",
+              ],
+            },
+            {
+              dept: "ICT",
+              icon: "💻",
+              questions: [
+                {
+                  text: "During peak academic periods — exams, online assessments, result uploads — how reliably do school technology systems perform?",
+                  options: [
+                    {
+                      label:
+                        "System downtime during exams and critical academic periods has caused significant disruption to students and staff",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Systems are mostly reliable but failures are discovered reactively rather than prevented proactively",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Performance is generally adequate but monitoring and predictive alerting capability is limited",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "All systems are monitored proactively — no exam or class has ever been disrupted by a technology failure",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI Smart IT Infrastructure Monitoring System"],
+            },
+            {
+              dept: "HR",
+              icon: "👥",
+              questions: [
+                {
+                  text: "During peak hiring periods, how efficiently does your HR team recruit, evaluate, and onboard staff for multiple roles simultaneously?",
+                  options: [
+                    {
+                      label:
+                        "Manual screening overwhelms HR during busy periods and time-to-hire is far too long",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "HR manages but high-volume periods create clear bottlenecks and inconsistent candidate evaluation",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Hiring works but onboarding is slow and dependent on manual coordination",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Recruitment, evaluation, and onboarding are fully automated — quality candidates identified and onboarded quickly without manual effort at any volume",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI Recruitment and Onboarding System"],
+            },
+            {
+              dept: "Catering",
+              icon: "🍽",
+              questions: [
+                {
+                  text: "During peak meal periods, how well does your catering team manage food preparation and serving without long queues or ingredient shortages?",
+                  options: [
+                    {
+                      label:
+                        "Long queues, ingredient shortages, and waste from overstocking are regular and visible problems",
+                      score: 3,
+                    },
+                    {
+                      label:
+                        "Peak periods create congestion and inconsistent service quality",
+                      score: 2,
+                    },
+                    {
+                      label:
+                        "Generally works but dietary needs and nutritional standards are not always adequately planned for",
+                      score: 1,
+                    },
+                    {
+                      label:
+                        "Meal service is fully optimised — queues and shortages do not occur, dietary needs are always met, and food waste is consistently minimised",
+                      score: 0,
+                      isCorrect: true,
+                    },
+                  ],
+                },
+              ],
+              solutionRefs: ["AI Meal Planning and Distribution System"],
+            },
+          ],
+        },
+      };
+
+      // ── STATE ─────────────────────────────────────
+      var lead = {};
+      var selectedDept = null;
+      var current = 0;
+      var answers = [];
+      var flatQuestions = [];
+
+      // ── HELPERS ───────────────────────────────────
+      function showView(id) {
+        [
+          "lead-view",
+          "dept-view",
+          "form-view",
+          "submitting-view",
+          "result-view",
+        ].forEach(function (v) {
+          document.getElementById(v).style.display =
+            v === id ? "block" : "none";
+        });
+      }
+      function checkLead() {
+        var n = document.getElementById("lead-name").value.trim();
+        var r = document.getElementById("lead-role").value.trim();
+        var s = document.getElementById("lead-school").value.trim();
+        var e = document.getElementById("lead-email").value.trim();
+        document.getElementById("btn-lead-next").disabled = !(
+          n &&
+          r &&
+          s &&
+          e &&
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
+        );
+      }
+      function showDeptSelect() {
+        lead = {
+          name: document.getElementById("lead-name").value.trim(),
+          role: document.getElementById("lead-role").value.trim(),
+          school: document.getElementById("lead-school").value.trim(),
+          email: document.getElementById("lead-email").value.trim(),
+          phone: document.getElementById("lead-phone").value.trim(),
+        };
+        buildDeptGrid();
+        showView("dept-view");
+      }
+      function buildDeptGrid() {
+        document.getElementById("dept-grid").innerHTML = DEPARTMENTS.map(
+          function (d) {
+            return (
+              '<button class="dept-btn' +
+              (selectedDept === d.id ? " selected" : "") +
+              '" onclick="selectDept(\'' +
+              d.id +
+              "')\">" +
+              '<div class="dept-icon">' +
+              d.icon +
+              "</div>" +
+              '<div><div class="dept-name">' +
+              d.name +
+              '</div><div class="dept-sub">' +
+              d.sub +
+              "</div></div>" +
+              "</button>"
+            );
+          },
+        ).join("");
+      }
+      function selectDept(id) {
+        selectedDept = id;
+        buildDeptGrid();
+        document.getElementById("btn-dept-next").disabled = false;
+      }
+
+      function getFlatQuestions() {
+        var d = DEPT_DATA[selectedDept];
+        if (!d) return [];
+        if (d.isMgmt) {
+          var flat = [];
+          d.sections.forEach(function (sec) {
+            sec.questions.forEach(function (q, qi) {
+              var qc = JSON.parse(JSON.stringify(q));
+              qc.deptLabel = sec.dept;
+              qc.deptIcon = sec.icon;
+              qc.solutionRef = sec.solutionRefs[qi] || sec.solutionRefs[0];
+              flat.push(qc);
+            });
+          });
+          return flat;
+        }
+        return d.questions.map(function (q, i) {
+          var qc = JSON.parse(JSON.stringify(q));
+          qc.solutionKey = d.scoreMap[i];
+          return qc;
+        });
+      }
+
+      function startQuestions() {
+        if (!selectedDept) return;
+        flatQuestions = getFlatQuestions();
+        answers = new Array(flatQuestions.length).fill(null);
+        current = 0;
+        var dep = DEPARTMENTS.find(function (d) {
+          return d.id === selectedDept;
+        });
+        document.getElementById("dept-label-top").textContent = dep.name;
+        document.getElementById("form-school-label").textContent = lead.school;
+        showView("form-view");
+        renderQ();
+      }
+
+      function renderQ() {
+        var q = flatQuestions[current];
+        var total = flatQuestions.length;
+        var pct = Math.round(((current + 1) / total) * 100);
+        document.getElementById("progress").style.width = pct + "%";
+        document.getElementById("step-label").textContent =
+          "Question " + (current + 1) + " of " + total;
+        document.getElementById("btn-back").style.visibility =
+          current > 0 ? "visible" : "hidden";
+        document.getElementById("btn-next").disabled =
+          answers[current] === null;
+        var isLast = current === total - 1;
+        document.getElementById("btn-next").textContent = isLast
+          ? "Submit responses"
+          : "Continue";
+        var letters = "ABCDE";
+        var html = "";
+        if (q.deptLabel) {
+          html +=
+            '<div class="dept-section-header">' +
+            q.deptIcon +
+            " " +
+            q.deptLabel +
+            "</div>";
+        } else {
+          var dep = DEPARTMENTS.find(function (d) {
+            return d.id === selectedDept;
+          });
+          html += '<div class="section-tag">' + dep.name + "</div>";
+        }
+        html += '<p class="q-text">' + q.text + '</p><div class="options">';
+        q.options.forEach(function (opt, i) {
+          var sel = answers[current] === i;
+          html +=
+            '<button class="opt-btn' +
+            (sel ? " selected" : "") +
+            '" onclick="selectOpt(' +
+            i +
+            ')">' +
+            '<span class="opt-letter">' +
+            letters[i] +
+            "</span>" +
+            "<span>" +
+            opt.label +
+            "</span></button>";
+        });
+        html += "</div>";
+        document.getElementById("q-area").innerHTML = html;
+      }
+
+      function selectOpt(i) {
+        answers[current] = i;
+        renderQ();
+      }
+      function goNext() {
+        if (current < flatQuestions.length - 1) {
+          current++;
+          renderQ();
+        } else submitAndShow();
+      }
+      function goBack() {
+        if (current > 0) {
+          current--;
+          renderQ();
+        } else showView("dept-view");
+      }
+
+      async function submitAndShow() {
+        showView("submitting-view");
+        var insight = await generateAIInsight();
+        await sendEmails(insight);
+        showThankYou();
+      }
+
+      function showThankYou() {
+        showView("result-view");
+        var isConfigured = FORMSPREE_ENDPOINT !== "YOUR_FORMSPREE_ENDPOINT";
+        var dep = DEPARTMENTS.find(function (d) {
+          return d.id === selectedDept;
+        });
+        var html = "";
+        if (!isConfigured) {
+          html +=
+            '<div class="config-banner"><strong>Setup:</strong> Replace <code>YOUR_FORMSPREE_ENDPOINT</code> with your Formspree URL to enable emails.</div>';
+        }
+        html +=
+          '<span class="thankyou-icon">&#9989;</span>' +
+          '<div class="thankyou-title">Thank you, ' +
+          lead.name +
+          "!</div>" +
+          '<p class="thankyou-body">Your diagnostic responses for the <strong>' +
+          dep.name +
+          "</strong> department at <strong>" +
+          lead.school +
+          "</strong> have been successfully submitted.<br><br>We have sent a confirmation to <strong>" +
+          lead.email +
+          "</strong>. Our team is reviewing your responses and will be in touch within <strong>24 hours</strong> with a tailored AI automation report for your department.</p>" +
+          '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+          '<button class="btn-primary" onclick="window.location.href=\'mailto:' +
+          CLIENT_SUPPORT_EMAIL +
+          "?subject=School Diagnostic - " +
+          encodeURIComponent(dep.name) +
+          ", " +
+          encodeURIComponent(lead.school) +
+          "'\">Contact us directly</button>" +
+          '<button class="btn-outline" onclick="restartFull()">Run another department</button>' +
+          "</div>" +
+          '<div class="email-status" id="email-status"></div>';
+        document.getElementById("result-inner").innerHTML = html;
+      }
+
+      async function generateAIInsight() {
+        var dep = DEPARTMENTS.find(function (d) {
+          return d.id === selectedDept;
+        });
+        var d = DEPT_DATA[selectedDept];
+        var answersText = flatQuestions
+          .map(function (q, i) {
+            var a = answers[i];
+            if (a === null) return null;
+            return "- " + q.text + "\n  Response: " + q.options[a].label;
+          })
+          .filter(Boolean)
+          .join("\n");
+
+        var prioritySols = [];
+        if (d.isMgmt) {
+          var refSet = {};
+          flatQuestions.forEach(function (q, i) {
+            if (
+              answers[i] !== null &&
+              q.options[answers[i]].score >= 2 &&
+              q.solutionRef
+            ) {
+              refSet[q.solutionRef] = true;
+            }
+          });
+          prioritySols = Object.keys(refSet);
+        } else {
+          var scored = {};
+          Object.keys(d.solutions).forEach(function (k) {
+            scored[k] = 0;
+          });
+          flatQuestions.forEach(function (q, i) {
+            if (answers[i] !== null && q.solutionKey) {
+              scored[q.solutionKey] =
+                (scored[q.solutionKey] || 0) + q.options[answers[i]].score;
+            }
+          });
+          prioritySols = Object.entries(scored)
+            .sort(function (a, b) {
+              return b[1] - a[1];
+            })
+            .filter(function (e) {
+              return e[1] > 0;
+            })
+            .map(function (e) {
+              return d.solutions[e[0]].name;
+            });
+        }
+
+        var prompt =
+          "You are a school AI automation consultant for Seedbuilders, Nigeria's leading AI automation company for schools.\n\n" +
+          lead.name +
+          " is the " +
+          lead.role +
+          " at " +
+          lead.school +
+          ". They have completed the " +
+          dep.name +
+          " department diagnostic.\n\n" +
+          "Their responses:\n" +
+          answersText +
+          "\n\n" +
+          "Highest priority solutions identified: " +
+          (prioritySols.length > 0
+            ? prioritySols.slice(0, 2).join(", ")
+            : "General automation review") +
+          "\n\n" +
+          "Write a 4-sentence internal analysis paragraph for the Seedbuilders sales team.\n" +
+          "Sentence 1: Summarise the current state of the " +
+          dep.name +
+          " department at " +
+          lead.school +
+          ".\n" +
+          "Sentence 2: Highlight the most critical pain point from their responses.\n" +
+          "Sentence 3: Note one area they appear to be managing well, or note if everything needs urgent attention.\n" +
+          "Sentence 4: A sharp recommendation on which solution to lead with in the sales conversation.\n" +
+          "Tone: professional, direct, sales-intelligence-focused. No generic phrases.";
+
+        try {
+          var resp = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-20250514",
+              max_tokens: 800,
+              messages: [{ role: "user", content: prompt }],
+            }),
+          });
+          var data = await resp.json();
+          return data.content && data.content[0]
+            ? data.content[0].text || ""
+            : "Analysis unavailable — review answers manually.";
+        } catch (e) {
+          return "Automated insight unavailable — please review the answers below and assess manually.";
+        }
+      }
+
+      async function sendEmails(aiInsight) {
+        var isConfigured = FORMSPREE_ENDPOINT !== "YOUR_FORMSPREE_ENDPOINT";
+        var statusEl = document.getElementById("email-status");
+        var dep = DEPARTMENTS.find(function (d) {
+          return d.id === selectedDept;
+        });
+        var d = DEPT_DATA[selectedDept];
+
+        var answersText = flatQuestions
+          .map(function (q, i) {
+            var a = answers[i];
+            if (a === null) return null;
+            var opt = q.options[a];
+            var tag = opt.isCorrect
+              ? "[DOING WELL]"
+              : opt.score >= 3
+                ? "[CRITICAL]"
+                : opt.score >= 2
+                  ? "[PRIORITY]"
+                  : "[RECOMMENDED]";
+            var sec = q.deptLabel ? "[" + q.deptLabel + "] " : "";
+            return sec + q.text + "\n   " + tag + ": " + opt.label;
+          })
+          .filter(Boolean)
+          .join("\n\n");
+
+        var doingRight = flatQuestions
+          .map(function (q, i) {
+            var a = answers[i];
+            if (a === null || !q.options[a].isCorrect) return null;
+            return "- " + q.options[a].label;
+          })
+          .filter(Boolean);
+
+        var doingWrong = flatQuestions
+          .map(function (q, i) {
+            var a = answers[i];
+            if (a === null || q.options[a].score < 2) return null;
+            var tag = q.options[a].score >= 3 ? "CRITICAL" : "PRIORITY";
+            return "- [" + tag + "] " + q.options[a].label;
+          })
+          .filter(Boolean);
+
+        var solSection = "";
+        if (d.isMgmt) {
+          var solMap = {};
+          flatQuestions.forEach(function (q, i) {
+            var a = answers[i];
+            if (a !== null && q.options[a].score > 0 && q.solutionRef) {
+              var sc = q.options[a].score;
+              var tag =
+                sc >= 3
+                  ? "HIGH PRIORITY"
+                  : sc >= 2
+                    ? "Priority"
+                    : "Recommended";
+              if (!solMap[q.solutionRef] || sc > solMap[q.solutionRef].sc) {
+                solMap[q.solutionRef] = { tag: tag, sc: sc };
+              }
+            }
+          });
+          solSection =
+            Object.entries(solMap)
+              .sort(function (a, b) {
+                return b[1].sc - a[1].sc;
+              })
+              .map(function (e) {
+                return "[" + e[1].tag + "] " + e[0];
+              })
+              .join("\n") ||
+            "No specific solutions flagged — further conversation recommended.";
+        } else {
+          var scored = {};
+          Object.keys(d.solutions).forEach(function (k) {
+            scored[k] = 0;
+          });
+          flatQuestions.forEach(function (q, i) {
+            if (answers[i] !== null && q.solutionKey) {
+              scored[q.solutionKey] += q.options[answers[i]].score;
+            }
+          });
+          solSection = Object.entries(scored)
+            .sort(function (a, b) {
+              return b[1] - a[1];
+            })
+            .map(function (e) {
+              var tag =
+                e[1] >= 3
+                  ? "HIGH PRIORITY"
+                  : e[1] >= 1
+                    ? "Priority"
+                    : "Recommended";
+              return "[" + tag + "] " + d.solutions[e[0]].name;
+            })
+            .join("\n");
+        }
+
+        var now = new Date().toLocaleString("en-NG", {
+          timeZone: "Africa/Lagos",
+        });
+        var sep50 = "==================================================";
+        var sep40 = "----------------------------------------";
+        var adminReport =
+          "SEEDBUILDERS - SCHOOL DIAGNOSTIC REPORT\n" +
+          sep50 +
+          "\n" +
+          "Submitted: " +
+          now +
+          "\n\n" +
+          "CONTACT INFORMATION\n" +
+          sep40 +
+          "\n" +
+          "Name:   " +
+          lead.name +
+          "\n" +
+          "Role:   " +
+          lead.role +
+          "\n" +
+          "School: " +
+          lead.school +
+          "\n" +
+          "Email:  " +
+          lead.email +
+          "\n" +
+          "Phone:  " +
+          (lead.phone || "Not provided") +
+          "\n" +
+          "Dept:   " +
+          dep.name +
+          "\n\n" +
+          "DIAGNOSTIC ANSWERS\n" +
+          sep40 +
+          "\n" +
+          answersText +
+          "\n\n" +
+          "FINDINGS\n" +
+          sep40 +
+          "\n\n" +
+          "WHAT THEY ARE DOING RIGHT:\n" +
+          (doingRight.length > 0
+            ? doingRight.join("\n")
+            : "No areas identified as fully optimised.") +
+          "\n\n" +
+          "WHAT NEEDS ATTENTION:\n" +
+          (doingWrong.length > 0
+            ? doingWrong.join("\n")
+            : "No critical issues identified.") +
+          "\n\n" +
+          "SALES INTELLIGENCE (AI-GENERATED):\n" +
+          aiInsight +
+          "\n\n" +
+          "RECOMMENDED SOLUTIONS\n" +
+          sep40 +
+          "\n" +
+          solSection +
+          "\n\n" +
+          sep50 +
+          "\n" +
+          "Report generated by Seedbuilders School Diagnostic Tool\n" +
+          "www.seedbuildersng.com";
+
+        var clientConfirmation =
+          "Hi " +
+          lead.name +
+          ",\n\n" +
+          "Thank you for completing the Seedbuilders AI Automation Diagnostic for the " +
+          dep.name +
+          " department at " +
+          lead.school +
+          ".\n\n" +
+          "Your responses have been successfully submitted. Our team is reviewing your answers and will be in touch within 24 hours with a personalised AI automation report tailored to your department.\n\n" +
+          "If you have any immediate questions, please reach out to us at " +
+          CLIENT_SUPPORT_EMAIL +
+          ".\n\n" +
+          "Warm regards,\nThe Seedbuilders Team\nwww.seedbuildersng.com";
+
+        if (!isConfigured) {
+          if (statusEl)
+            statusEl.textContent =
+              "Email not configured — see setup instructions.";
+          return;
+        }
+
+        try {
+          var resp = await fetch(FORMSPREE_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              _subject: "School Diagnostic - " + dep.name + ", " + lead.school,
+              _replyto: lead.email,
+              admin_report: adminReport,
+              client_confirmation: clientConfirmation,
+              lead_name: lead.name,
+              lead_role: lead.role,
+              lead_school: lead.school,
+              lead_email: lead.email,
+              lead_phone: lead.phone || "Not provided",
+              department: dep.name,
+            }),
+          });
+          if (resp.ok) {
+            if (statusEl) {
+              statusEl.className = "email-status sent";
+              statusEl.textContent = "Confirmation sent to " + lead.email;
+            }
+          } else {
+            if (statusEl) {
+              statusEl.className = "email-status error";
+              statusEl.textContent =
+                "Email delivery failed — contact us directly.";
+            }
+          }
+        } catch (e) {
+          if (statusEl) {
+            statusEl.className = "email-status error";
+            statusEl.textContent =
+              "Email delivery failed — contact us directly.";
+          }
+        }
+      }
+
+      function restartFull() {
+        selectedDept = null;
+        current = 0;
+        answers = [];
+        flatQuestions = [];
+        buildDeptGrid();
+        document.getElementById("btn-dept-next").disabled = true;
+        showView("dept-view");
+      }
+    </script>
+  </body>
+</html>
